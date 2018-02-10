@@ -12,10 +12,11 @@ class Puzzle
 public:
 	Puzzle();
 	Puzzle(string op1, string op2, string sum);
+	Puzzle(string expression);
 	~Puzzle();
 
 	string getPuzzle() const;
-	string Puzzle::getValuesFromMapping(Mapping guess);
+	string getValuesFromMapping(Mapping guess);
 	bool SolvedWithMapping(Mapping guess);
 
 private:

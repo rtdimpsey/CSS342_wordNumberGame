@@ -11,6 +11,20 @@ Puzzle::Puzzle(string op1, string op2, string sum) : opWord1(op1), opWord2(op2),
 {
 }
 
+//exression contains the full puzzle in a string
+//assuming no spaces in the string pot+pan=bib
+Puzzle::Puzzle(string expression) : opVal1(-1), opVal2(-1), sumVal(0)
+{
+	size_t position;
+	position = expression.find("+");
+	this->opWord1 = expression.substr(0, position);
+	expression.erase(0, position+1);
+	position = expression.find("=");
+	this->opWord2 = expression.substr(0, position);
+	expression.erase(0, position + 1);
+	this->sumWord = expression;
+}
+
 Puzzle::~Puzzle()
 {
 }

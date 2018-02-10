@@ -37,9 +37,15 @@ bool Mapping::isComplete() const
 	return true;
 }
 
+// Letters added must be lower case
+// No other symbols but a-z accepted
 bool Mapping::addLetter(char letter)
 {
 	if (containsLetter(letter))
+	{
+		return false;
+	}
+	else if ((letter < 'a') || (letter >= 'z'))
 	{
 		return false;
 	}

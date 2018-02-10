@@ -20,6 +20,7 @@
 #include <iostream>
 using namespace std;
 
+const string DEFAULT_PUZZLE = "pot+pan=bib";
 bool nextLetter(Puzzle &thePuzzle, Mapping &currentGuess, int slot);
 
 int main(int argc, char *argv[])
@@ -43,32 +44,25 @@ int main(int argc, char *argv[])
 	*/
 	
 	// Get the puzzle to solve as a string and create Puzzle
-	string op1;
-	string op2;
-	string sum;
+	string puzzleString;
 	if (argc == 1)
 	{
-		op1 = "pot";
-		op2 = "pan";
-		sum = "bib";
+		puzzleString = DEFAULT_PUZZLE;
 	}
 	else if (argc == 2)
 	{
-		string puzzleString = string(argv[1]);
+		puzzleString = string(argv[1]);
 	}
 	else
 	{
 		cerr << "Usage:  wordNumberGame op1+op2=sum" << endl;
 		return -1;
 	}
-	Puzzle myPuzzle(op1, op2, sum);
+	Puzzle myPuzzle(puzzleString);
 	Mapping guess;
 
 	//populate guess
-	guess.addLetters(op1);
-	guess.addLetters(op2);
-	guess.addLetters(sum);
-
+	guess.addLetters(puzzleString);
 	
 	cout << "Puzzle: " << myPuzzle.getPuzzle() << endl;
 	cout << guess << endl;
