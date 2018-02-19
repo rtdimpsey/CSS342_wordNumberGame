@@ -24,12 +24,12 @@ int Mapping::getValue(char letter) const
 }
 
 //If all letters are assigned then the mapping is complete
-//NOTE THAT THIS REQUIRES ALL LETTERS NOT JUST THOSE IN THE PUZZLE
+//Note:  There can be letters in the mapping which are not needed for the puzzle
 bool Mapping::isComplete() const
 {
 	for (int i = 0; i < theMap.size(); i++)
 	{
-		if (theMap[i].getValue() == -1)
+		if (theMap[i].getValue() == NOT_SET)
 		{
 			return false;
 		}
@@ -51,7 +51,7 @@ bool Mapping::addLetter(char letter)
 	}
 	else
 	{
-		Match newMatch = Match(letter, -1);
+		Match newMatch = Match(letter, NOT_SET);
 		theMap.push_back(newMatch);
 	}
 }
@@ -74,14 +74,18 @@ bool Mapping::addLetters(string word)
 // Only valid letter-value pairs are allowed
 bool Mapping::addLetter(char letter, int value)
 {
-	if (containsLetter(letter) || (value < -1) || (value > 9) || containsValue(value))
+	if (containsLetter(letter) || containsValue(value))
 	{
 		return false;
 	}
-	else
-	{
+	else if ( ((value >= 0) && (value <= 9)) || (value == NOT_SET))
+	{ 
 		Match newMatch = Match(letter, value);
 		theMap.push_back(newMatch);
+	}
+	else
+	{
+		return false;
 	}
 }
 
@@ -92,12 +96,15 @@ bool Mapping::setPosition(int index, int value)
 	{
 		return false;
 	}
-	if ((value < -1) || (value > 9))
+	else if (((value >= 0) && (value <= 9)) || (value == NOT_SET))
+	{
+		theMap[index].setValue(value);
+		return true;
+	}
+	else
 	{
 		return false;
 	}
-	theMap[index].setValue(value);
-	return true;
 }
 
 int Mapping::getSize() const
@@ -130,7 +137,7 @@ bool Mapping::containsValue(int value)
 	return false;
 }
 
-// All matches must have either a -1 (not set) or a unique number 0-9 for the map to be valid
+// All matches must have either a NOT_SET or a unique number 0-9 for the map to be valid
 // We'll use an unsigned bit array to keep track
 bool Mapping::isValid() const
 {
@@ -138,7 +145,7 @@ bool Mapping::isValid() const
 	for (int i = 0; i < theMap.size(); i++)
 	{
 		int val = theMap[i].getValue();
-		if (val != -1)
+		if (val != NOT_SET)
 		{
 			unsigned bitMask = (1 << val);
 			if (bitMask & bitArray)
@@ -158,7 +165,7 @@ ostream& operator<<(ostream &outStream, const Mapping& rhs)
 {
 	for (int i = 0; i < rhs.theMap.size(); i++)
 	{
-		if (rhs.theMap[i].getValue() == -1)
+		if (rhs.theMap[i].getValue() == NOT_SET)
 		{
 			outStream << rhs.theMap[i].getLetter() << ",*  ";
 		}

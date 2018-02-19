@@ -3,6 +3,10 @@
 #include <iostream>
 #include <vector>
 using namespace std;
+
+//Mapping of character is not set to a value
+const int NOT_SET = -1;
+
 class Mapping
 {
 	friend ostream& operator<<(ostream &outStream, const Mapping& rhs);

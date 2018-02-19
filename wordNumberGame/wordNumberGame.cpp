@@ -4,7 +4,7 @@
 //     For instance, a puzzle:  pot + pan = bib
 //     will yield a solution: p=0, o=3, t=4,  a=8,  n=7,  b=1,  i=2;  34 + 87 = 121
 //     
-// Currently program workds with two operands and addition.
+// Currently program works with two operands and addition.
 // Input is a string of the form pot+pan=bib
 // This is input as an argument to the command line
 //
@@ -25,24 +25,6 @@ bool nextLetter(Puzzle &thePuzzle, Mapping &currentGuess, int slot);
 
 int main(int argc, char *argv[])
 {
-	/*
-	string op1 = "rob";
-	string op2 = "rbo";
-	string sum = "btt";
-
-	string op1 = "pot";
-	string op2 = "pan";
-	string sum = "bib";
-	
-	string op1 = "dog";
-	string op2 = "cat";
-	string sum = "pig";
-	
-	string op1 = "boy";
-	string op2 = "girl";
-	string sum = "baby";
-	*/
-	
 	// Get the puzzle to solve as a string and create Puzzle
 	string puzzleString;
 	if (argc == 1)
@@ -61,11 +43,11 @@ int main(int argc, char *argv[])
 	Puzzle myPuzzle(puzzleString);
 	Mapping guess;
 
-	//populate guess
+	//populate guess with letters of the puzzle
 	guess.addLetters(puzzleString);
 	
 	cout << "Puzzle: " << myPuzzle.getPuzzle() << endl;
-	cout << guess << endl;
+
 	bool solved = nextLetter(myPuzzle, guess, 0);
 	if (solved)
 	{
@@ -76,43 +58,13 @@ int main(int argc, char *argv[])
 	{
 		cout << "No Solution" << endl;
 	}
-
-
-	/*
-	Puzzle myPuzzle("rob", "rbo", "btt");
-	Mapping guess;
-	guess.addLetter('r', 1);
-	guess.addLetter('o', 3);
-	guess.addLetter('b', 2);
-	guess.addLetter('t', 5);
-
-	cout << myPuzzle.getPuzzle() << endl;
-	cout << guess << endl;
-	cout << myPuzzle.getValuesFromMapping(guess) << endl;;
-	cout << "Solved: " << myPuzzle.SolvedWithMapping(guess) << endl;
-	*/
-
-	//Tests for guess
-	/*
-	Mapping guess;
-	guess.addLetter('r');
-	guess.addLetter('o');
-	guess.addLetter('r');
-	guess.addLetter('b');
-	guess.addLetter('e');
-	guess.addLetter('o');
-	cout << guess << endl;
-	guess.setPosition(2, 7);
-	guess.setPosition(3, 7);
-	cout << guess << endl;
-	cout << guess.isValid() << endl;
-	*/
     return 0;
 }
 
+// This is the recursive function which solves the puzzle.  
+// If all slots have been filled then puzzle solved.
 bool nextLetter(Puzzle &thePuzzle, Mapping &currentGuess, int slot)
 {
-	// if all slots have been filled then puzzle solved.
 	//NEED TO FIX THIS... 
 	//if (slot == currentGuess.getSize())
 	//{
@@ -143,6 +95,24 @@ bool nextLetter(Puzzle &thePuzzle, Mapping &currentGuess, int slot)
 			return true;
 		}
 	}
-	currentGuess.setPosition(slot, -1);
+	currentGuess.setPosition(slot, NOT_SET);
 	return false;
 }
+
+/*Possible Puzzles
+string op1 = "rob";
+string op2 = "rbo";
+string sum = "btt";
+
+string op1 = "pot";
+string op2 = "pan";
+string sum = "bib";
+
+string op1 = "dog";
+string op2 = "cat";
+string sum = "pig";
+
+string op1 = "boy";
+string op2 = "girl";
+string sum = "baby";
+*/
